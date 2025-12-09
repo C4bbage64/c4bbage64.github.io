@@ -42,6 +42,10 @@ html.dark body {
 }
 
 @layer base {
+	body {
+		@apply text-slate-900 bg-slate-50 dark:text-slate-100 dark:bg-slate-950;
+	}
+
 	h1,
 	h2,
 	h3,
@@ -50,6 +54,7 @@ html.dark body {
 	h6 {
 		font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
 		letter-spacing: -0.02em;
+		@apply text-slate-900 dark:text-slate-50;
 	}
 }
 
@@ -79,7 +84,7 @@ html.dark body {
 	}
 
 	.card {
-		@apply rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 shadow-soft backdrop-blur;
+		@apply rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 shadow-soft backdrop-blur text-slate-800 dark:text-slate-100;
 	}
 
 	.pill {
