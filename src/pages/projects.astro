@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+	{
+		title: 'Project One',
+		description: 'Short description of what this project does, who it helps, and why it exists.',
+		tech: ['Astro', 'TypeScript', 'Tailwind'],
+		links: { demo: '#', repo: '#' },
+	},
+	{
+		title: 'Project Two',
+		description: 'Highlight the problem, your solution, and any notable performance wins.',
+		tech: ['Node.js', 'REST', 'CI/CD'],
+		links: { demo: '#', repo: '#' },
+	},
+	{
+		title: 'Project Three',
+		description: 'Add a placeholder for visuals like screenshots or a short Loom video.',
+		tech: ['React', 'Design Systems', 'Testing'],
+		links: { demo: '#', repo: '#' },
+	},
+];
+---
+
+<Layout title="Projects | C4bbage64" description="Selected work and experiments by C4bbage64">
+	<section class="mx-auto max-w-6xl px-6 py-14 lg:py-20">
+		<div class="flex items-center justify-between gap-4">
+			<div>
+				<p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Work</p>
+				<h1 class="text-3xl font-semibold leading-tight sm:text-4xl">Projects</h1>
+				<p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+					Swap these cards with your own projects. Include what you shipped, your role, the tech stack,
+					and a link to the code or demo.
+				</p>
+			</div>
+			<a class="btn-secondary" href="https://github.com/C4bbage64" target="_blank" rel="noreferrer">
+				View GitHub
+			</a>
+		</div>
+
+		<div class="mt-10 grid gap-6 md:grid-cols-2">
+			{projects.map((project) => (
+				<article class="card flex h-full flex-col gap-4 p-5">
+					<div class="flex items-start justify-between gap-3">
+						<div>
+							<h2 class="text-xl font-semibold">{project.title}</h2>
+							<p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{project.description}</p>
+						</div>
+						<span class="pill text-xs">Placeholder</span>
+					</div>
+					<div class="flex flex-wrap gap-2">
+						{project.tech.map((tech) => (
+							<span class="pill" aria-label={`Uses ${tech}`}>{tech}</span>
+						))}
+					</div>
+					<div class="mt-auto flex flex-wrap gap-3 pt-2">
+						<a class="btn-secondary" href={project.links.demo} target="_blank" rel="noreferrer">Demo</a>
+						<a class="btn-ghost" href={project.links.repo} target="_blank" rel="noreferrer">GitHub</a>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+</Layout>

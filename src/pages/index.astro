@@ -1,11 +1,89 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const highlights = [
+	{
+		title: 'Frontend',
+		detail: 'Astro, React, TypeScript, Tailwind CSS, accessibility-first UIs.',
+		tag: 'UI',
+	},
+	{
+		title: 'Backend & Ops',
+		detail: 'APIs, CI/CD, testing, and deployment pipelines tuned for speed.',
+		tag: 'Systems',
+	},
+	{
+		title: 'Learning Focus',
+		detail: 'Exploring performant web patterns and reliable developer tooling.',
+		tag: 'Growth',
+	},
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="C4bbage64 | Developer Portfolio" description="Developer / Programmer / Tech Enthusiast">
+	<section class="mx-auto max-w-6xl px-6 py-14 lg:py-20">
+		<div class="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+			<div class="space-y-6">
+				<div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-sm font-medium text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-200">
+					<span class="h-2 w-2 rounded-full bg-gradient-to-r from-brand-primary to-brand-secondary"></span>
+					Developer / Programmer / Tech Enthusiast
+				</div>
+				<h1 class="text-4xl font-semibold leading-tight sm:text-5xl">
+					Hey, I'm C4bbage64.
+				</h1>
+				<p class="text-lg text-slate-600 dark:text-slate-300">
+					I build fast, minimal, and resilient web experiences. Swap in your bio here to
+					highlight what you love to build, the teams you've supported, or the problems you're
+					currently solving.
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a class="btn-primary" href="/projects">View Projects</a>
+					<a class="btn-secondary" href="https://github.com/C4bbage64" target="_blank" rel="noreferrer">
+						GitHub
+					</a>
+					<a class="btn-ghost" href="/contact">Contact</a>
+				</div>
+				<div class="flex flex-wrap gap-2 pt-2">
+					<span class="pill">Astro</span>
+					<span class="pill">TypeScript</span>
+					<span class="pill">Tailwind CSS</span>
+					<span class="pill">GitHub Pages</span>
+					<span class="pill">Accessibility</span>
+				</div>
+			</div>
+			<div class="relative">
+				<div class="card relative overflow-hidden p-10">
+					<div class="absolute inset-0 opacity-60 blur-3xl" aria-hidden="true">
+						<div class="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-brand-primary/40"></div>
+						<div class="absolute bottom-0 right-0 h-52 w-52 rounded-full bg-brand-secondary/40"></div>
+					</div>
+					<div class="relative flex flex-col items-center justify-center gap-4 text-center">
+						<div class="flex h-28 w-28 items-center justify-center rounded-3xl bg-slate-900 text-3xl font-semibold text-white shadow-soft dark:bg-white dark:text-slate-900">
+							C4
+						</div>
+						<div>
+							<p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+								Placeholder Avatar
+							</p>
+							<p class="text-base text-slate-600 dark:text-slate-300">
+								Swap with a headshot or illustration that fits your style.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{highlights.map((item) => (
+				<article class="card p-5">
+					<div class="flex items-center justify-between">
+						<h3 class="text-lg font-semibold">{item.title}</h3>
+						<span class="pill text-xs">{item.tag}</span>
+					</div>
+					<p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{item.detail}</p>
+				</article>
+			))}
+		</div>
+	</section>
 </Layout>

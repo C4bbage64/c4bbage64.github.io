@@ -1,22 +1,145 @@
+---
+import '../styles/global.css';
+
+const {
+	title = 'C4bbage64 | Portfolio',
+	description = 'Developer / Programmer / Tech Enthusiast',
+} = Astro.props;
+
+const navLinks = [
+	{ href: '/', label: 'Home' },
+	{ href: '/projects', label: 'Projects' },
+	{ href: '/about', label: 'About' },
+	{ href: '/contact', label: 'Contact' },
+];
+---
+
 <!doctype html>
-<html lang="en">
+<html
+	lang="en"
+	class="scroll-smooth bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
+>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<script is:inline>
+			(() => {
+				try {
+					const stored = localStorage.getItem('theme');
+					const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					const theme = stored || (prefersDark ? 'dark' : 'light');
+					document.documentElement.dataset.theme = theme;
+					document.documentElement.classList.toggle('dark', theme === 'dark');
+				} catch (err) {
+					document.documentElement.dataset.theme = 'light';
+					document.documentElement.classList.remove('dark');
+				}
+			})();
+		</script>
 	</head>
-	<body>
-		<slot />
+	<body class="min-h-screen flex flex-col">
+		<header
+			class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/80 backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/80"
+		>
+			<div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+				<a class="flex items-center gap-2 font-semibold" href="/">
+					<span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-primary to-brand-secondary text-white shadow-soft">
+						C
+					</span>
+					<span class="text-lg tracking-tight">C4bbage64</span>
+				</a>
+				<nav class="flex items-center gap-4 text-sm font-medium text-slate-700 dark:text-slate-200 md:gap-6">
+					{navLinks.map((link) => (
+						<a
+							href={link.href}
+							class="relative transition hover:text-slate-900 dark:hover:text-white"
+						>
+							{link.label}
+						</a>
+					))}
+				</nav>
+				<div class="flex items-center gap-3">
+					<a
+						href="https://github.com/C4bbage64"
+						class="hidden items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:text-slate-950 dark:border-slate-800 dark:text-slate-100 dark:hover:border-slate-700 md:inline-flex"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<span>GitHub</span>
+					</a>
+					<button
+						data-theme-toggle
+						type="button"
+						class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-slate-700"
+						aria-label="Toggle theme"
+					>
+						<svg class="sun h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+							<circle cx="12" cy="12" r="4" />
+							<path stroke-linecap="round" d="M12 2.75v2.5m0 13.5v2.5m8.25-8.25h-2.5m-13.5 0H2.75m14.364-6.114-1.768 1.768M8.654 17.346l-1.768 1.768m0-13.864 1.768 1.768m7.944 7.944 1.768 1.768" />
+						</svg>
+						<svg class="moon hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+						</svg>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<main class="flex-1">
+			<slot />
+		</main>
+
+		<footer class="border-t border-slate-200/80 bg-white/70 dark:border-slate-800/80 dark:bg-slate-950/70">
+			<div class="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-600 dark:text-slate-300 md:flex-row md:items-center md:justify-between">
+				<span>© {new Date().getFullYear()} C4bbage64. Built with Astro.</span>
+				<div class="flex gap-4">
+					<a class="hover:text-slate-900 dark:hover:text-white" href="https://github.com/C4bbage64" target="_blank" rel="noreferrer">GitHub</a>
+					<a class="hover:text-slate-900 dark:hover:text-white" href="/contact">Contact</a>
+				</div>
+			</div>
+		</footer>
+
+		<script is:inline>
+			window.addEventListener('DOMContentLoaded', () => {
+				const toggle = document.querySelector('[data-theme-toggle]');
+				const sun = toggle?.querySelector('.sun');
+				const moon = toggle?.querySelector('.moon');
+
+				const setTheme = (mode) => {
+					const theme = mode === 'dark' ? 'dark' : 'light';
+					try {
+						localStorage.setItem('theme', theme);
+					} catch (err) {}
+					document.documentElement.dataset.theme = theme;
+					document.documentElement.classList.toggle('dark', theme === 'dark');
+					sun?.classList.toggle('hidden', theme === 'dark');
+					moon?.classList.toggle('hidden', theme !== 'dark');
+				};
+
+				const initial = document.documentElement.dataset.theme || 'light';
+				sun?.classList.toggle('hidden', initial === 'dark');
+				moon?.classList.toggle('hidden', initial !== 'dark');
+
+				toggle?.addEventListener('click', () => {
+					const isDark = document.documentElement.classList.contains('dark');
+					setTheme(isDark ? 'light' : 'dark');
+				});
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+					const stored = (() => {
+						try {
+							return localStorage.getItem('theme');
+						} catch (err) {
+							return null;
+						}
+					})();
+					if (!stored) setTheme(event.matches ? 'dark' : 'light');
+				});
+			});
+		</script>
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
