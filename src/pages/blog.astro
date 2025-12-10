@@ -1,32 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-const posts = [
-	{
-		title: 'Why I built this portfolio',
-		description: 'A short story about the design choices, stack, and deployment pipeline.',
-		date: '2025-12-10',
-		tags: ['Astro', 'Tailwind', 'GitHub Pages'],
-		readingTime: '4 min',
-		link: '#',
-	},
-	{
-		title: 'Notes on performance-minded UI',
-		description: 'Tactics I use for keeping sites fast: critical CSS, minimal JS, and sensible images.',
-		date: '2025-11-28',
-		tags: ['Performance', 'Frontend'],
-		readingTime: '6 min',
-		link: '#',
-	},
-	{
-		title: 'What I learned shipping side projects',
-		description: 'A grab bag of lessons on scope, automation, and getting feedback early.',
-		date: '2025-11-10',
-		tags: ['Projects', 'Process'],
-		readingTime: '5 min',
-		link: '#',
-	},
-];
+const posts = (await getCollection('blog')).sort(
+	(a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+
+const formatDate = (value: string) =>
+	new Date(value).toLocaleDateString(undefined, {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	});
 ---
 
 <Layout title="Blog | C4bbage64" description="Writing, notes, and project updates">
@@ -46,19 +31,19 @@ const posts = [
 			{posts.map((post) => (
 				<article class="card group flex h-full flex-col gap-3 p-5 transition hover:-translate-y-1 hover:shadow-xl">
 					<div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
-						<span>{post.date}</span>
+						<span>{formatDate(post.data.date)}</span>
 						<span class="h-px w-6 bg-slate-200 dark:bg-slate-700"></span>
-						<span>{post.readingTime}</span>
+						{post.data.readingTime && <span>{post.data.readingTime}</span>}
 					</div>
-					<h2 class="text-xl font-semibold group-hover:text-slate-900 dark:group-hover:text-white">{post.title}</h2>
-					<p class="text-sm text-slate-600 dark:text-slate-300">{post.description}</p>
+					<h2 class="text-xl font-semibold group-hover:text-slate-900 dark:group-hover:text-white">{post.data.title}</h2>
+					<p class="text-sm text-slate-600 dark:text-slate-300">{post.data.description}</p>
 					<div class="flex flex-wrap gap-2 pt-1">
-						{post.tags.map((tag) => (
+						{post.data.tags?.map((tag) => (
 							<span class="pill text-xs">{tag}</span>
 						))}
 					</div>
 					<div class="mt-auto pt-2">
-						<a class="btn-ghost" href={post.link}>Read</a>
+						<a class="btn-ghost" href={`/blog/${post.slug}/`}>Read</a>
 					</div>
 				</article>
 			))}
@@ -67,9 +52,9 @@ const posts = [
 		<div class="mt-12 rounded-2xl border border-dashed border-slate-300/70 bg-white/70 p-6 text-sm text-slate-700 shadow-sm backdrop-blur dark:border-slate-700/70 dark:bg-slate-900/60 dark:text-slate-200">
 			<p class="font-semibold">How to add posts</p>
 			<ol class="mt-2 list-decimal space-y-2 pl-5">
-				<li>Duplicate an entry in the <code>posts</code> array above and fill in your title, date, summary, tags, and URL.</li>
-				<li>Point <code>link</code> to a real post URL. Easiest option: create a markdown file and serve it via GitHub Pages or link to an external blog.</li>
-				<li>For richer posts later, we can set up Astro Content Collections so you can author in Markdown/MDX under <code>src/content/blog</code>.</li>
+				<li>Add a Markdown file to <code>src/content/blog</code> with the frontmatter fields you need (title, description, date, tags, readingTime).</li>
+				<li>Save the file with a descriptive name; Astro uses it for the slug (e.g., <code>my-post.md</code> → <code>/blog/my-post</code>).</li>
+				<li>Run <code>npm run dev</code> locally to preview and push to <code>main</code> when ready—GitHub Pages rebuilds automatically.</li>
 			</ol>
 		</div>
 	</section>

@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formattedDate = new Date(post.data.date).toLocaleDateString(undefined, {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+});
+---
+
+<Layout title={`${post.data.title} | C4bbage64`} description={post.data.description}>
+	<article class="mx-auto max-w-3xl px-6 py-14 lg:py-20">
+		<p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Blog</p>
+		<h1 class="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">{post.data.title}</h1>
+		<p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+			{formattedDate}
+			{post.data.readingTime ? ` · ${post.data.readingTime}` : ''}
+		</p>
+		<div class="mt-3 flex flex-wrap gap-2">
+			{post.data.tags?.map((tag) => (
+				<span class="pill text-xs">{tag}</span>
+			))}
+		</div>
+
+		<div class="prose prose-slate mt-10 max-w-none dark:prose-invert">
+			<Content />
+		</div>
+	</article>
+</Layout>
