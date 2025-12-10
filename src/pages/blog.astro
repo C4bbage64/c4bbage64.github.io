@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const posts = [
+	{
+		title: 'Why I built this portfolio',
+		description: 'A short story about the design choices, stack, and deployment pipeline.',
+		date: '2025-12-10',
+		tags: ['Astro', 'Tailwind', 'GitHub Pages'],
+		readingTime: '4 min',
+		link: '#',
+	},
+	{
+		title: 'Notes on performance-minded UI',
+		description: 'Tactics I use for keeping sites fast: critical CSS, minimal JS, and sensible images.',
+		date: '2025-11-28',
+		tags: ['Performance', 'Frontend'],
+		readingTime: '6 min',
+		link: '#',
+	},
+	{
+		title: 'What I learned shipping side projects',
+		description: 'A grab bag of lessons on scope, automation, and getting feedback early.',
+		date: '2025-11-10',
+		tags: ['Projects', 'Process'],
+		readingTime: '5 min',
+		link: '#',
+	},
+];
+---
+
+<Layout title="Blog | C4bbage64" description="Writing, notes, and project updates">
+	<section class="mx-auto max-w-6xl px-6 py-14 lg:py-20">
+		<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Blog</p>
+				<h1 class="text-3xl font-semibold leading-tight sm:text-4xl">Writing & Notes</h1>
+				<p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+					Swap these entries with your own posts. Each card shows a title, summary, date, tags, and reading time.
+				</p>
+			</div>
+			<a class="btn-secondary" href="mailto:m.irfandeni@gmail.com">Request a topic</a>
+		</div>
+
+		<div class="mt-10 grid gap-5 md:grid-cols-2">
+			{posts.map((post) => (
+				<article class="card group flex h-full flex-col gap-3 p-5 transition hover:-translate-y-1 hover:shadow-xl">
+					<div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+						<span>{post.date}</span>
+						<span class="h-px w-6 bg-slate-200 dark:bg-slate-700"></span>
+						<span>{post.readingTime}</span>
+					</div>
+					<h2 class="text-xl font-semibold group-hover:text-slate-900 dark:group-hover:text-white">{post.title}</h2>
+					<p class="text-sm text-slate-600 dark:text-slate-300">{post.description}</p>
+					<div class="flex flex-wrap gap-2 pt-1">
+						{post.tags.map((tag) => (
+							<span class="pill text-xs">{tag}</span>
+						))}
+					</div>
+					<div class="mt-auto pt-2">
+						<a class="btn-ghost" href={post.link}>Read</a>
+					</div>
+				</article>
+			))}
+		</div>
+
+		<div class="mt-12 rounded-2xl border border-dashed border-slate-300/70 bg-white/70 p-6 text-sm text-slate-700 shadow-sm backdrop-blur dark:border-slate-700/70 dark:bg-slate-900/60 dark:text-slate-200">
+			<p class="font-semibold">How to add posts</p>
+			<ol class="mt-2 list-decimal space-y-2 pl-5">
+				<li>Duplicate an entry in the <code>posts</code> array above and fill in your title, date, summary, tags, and URL.</li>
+				<li>Point <code>link</code> to a real post URL. Easiest option: create a markdown file and serve it via GitHub Pages or link to an external blog.</li>
+				<li>For richer posts later, we can set up Astro Content Collections so you can author in Markdown/MDX under <code>src/content/blog</code>.</li>
+			</ol>
+		</div>
+	</section>
+</Layout>
